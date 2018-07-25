@@ -1,0 +1,1 @@
+curl -v --silent http://localhost:8083/connectors/postgresql/status 2>&1 | grep "RUNNING.*RUNNING" 1>/dev/null

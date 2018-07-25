@@ -1,0 +1,52 @@
+replicaCount: 1
+image: debezium/connect:0.8.0.Final
+pullPolicy: IfNotPresent
+persistentVolumeClaimName: identity-connector-pvc
+affinity:
+  weight: 100
+  apps:
+  - iddb
+postgresPasswordSecret:
+  secretName: iddb-secret
+  secretKey: password
+connector:
+  name: postgresql
+  connector.class: io.debezium.connector.postgresql.PostgresConnector
+  database.hostname: iddb
+  database.port: 5432
+  database.user: postgres
+  database.password: POSTGRES_PASSWORD
+  database.dbname: iddb
+  database.server.name: iddb
+  table.whitelist: public.AspNetUsers
+  column.blacklist: "\
+    public.AspNetUsers.AccessFailedCount,\
+    public.AspNetUsers.ConcurrencyStamp,\
+    public.AspNetUsers.EmailConfirmed,\
+    public.AspNetUsers.LockoutEnabled,\
+    public.AspNetUsers.LockoutEnd,\
+    public.AspNetUsers.PasswordHash,\
+    public.AspNetUsers.PhoneNumberConfirmed,\
+    public.AspNetUsers.SecurityStamp,\
+    public.AspNetUsers.TwoFactorEnabled"
+worker:
+  bootstrap.servers: bootstrap.kafka:9092
+  key.converter: org.apache.kafka.connect.json.JsonConverter
+  value.converter: org.apache.kafka.connect.json.JsonConverter
+  key.converter.schemas.enable: false
+  value.converter.schemas.enable: false
+  internal.key.converter: org.apache.kafka.connect.json.JsonConverter
+  internal.value.converter: org.apache.kafka.connect.json.JsonConverter
+  internal.key.converter.schemas.enable: false
+  internal.value.converter.schemas.enable: false
+  offset.storage.file.filename: /usr/tmp/connect.offsets
+  offset.flush.interval.ms: 30000
+  plugin.path: /kafka/connect
+log4j:
+  log4j.rootLogger: INFO, stdout
+  log4j.appender.stdout: org.apache.log4j.ConsoleAppender
+  log4j.appender.stdout.layout: org.apache.log4j.PatternLayout
+  log4j.appender.stdout.layout.ConversionPattern: "[%d] %p %m (%c:%L)%n"
+  log4j.logger.org.apache.zookeeper: ERROR
+  log4j.logger.org.I0Itec.zkclient: ERROR
+  log4j.logger.org.reflections: ERROR

@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: identity-connector-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: connector-sc
+  resources:
+    requests:
+      storage: 10Mi

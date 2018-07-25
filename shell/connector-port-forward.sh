@@ -1,0 +1,1 @@
+kubectl port-forward $(kubectl get pods --selector=app=identity-connector -o jsonpath='{.items[0].metadata.name}') 8083:8083;

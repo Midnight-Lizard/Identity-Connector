@@ -1,0 +1,13 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: identity-connector-pv
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: connector-sc
+  hostPath:
+    path: "/mnt/data/connector"
