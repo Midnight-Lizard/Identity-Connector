@@ -4,8 +4,7 @@ pullPolicy: IfNotPresent
 persistentVolumeClaimName: identity-connector-pvc
 affinity:
   weight: 100
-  apps:
-  - iddb
+  apps: [ "iddb" ]
 postgresPasswordSecret:
   secretName: iddb-secret
   secretKey: password
@@ -18,8 +17,12 @@ connector:
   database.password: POSTGRES_PASSWORD
   database.dbname: iddb
   database.server.name: iddb
-  table.whitelist: public.AspNetUsers
+  table.blacklist: "\
+    public.__EFMigrationsHistory,\
+    public.PersistedGrants,\
+    public.AspNetUserTokens"
   column.blacklist: "\
+    public.AspNetRoles.ConcurrencyStamp,\
     public.AspNetUsers.AccessFailedCount,\
     public.AspNetUsers.ConcurrencyStamp,\
     public.AspNetUsers.EmailConfirmed,\
