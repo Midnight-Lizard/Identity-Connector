@@ -25,11 +25,9 @@ connector:
     public.AspNetRoles.ConcurrencyStamp,\
     public.AspNetUsers.AccessFailedCount,\
     public.AspNetUsers.ConcurrencyStamp,\
-    public.AspNetUsers.EmailConfirmed,\
     public.AspNetUsers.LockoutEnabled,\
     public.AspNetUsers.LockoutEnd,\
     public.AspNetUsers.PasswordHash,\
-    public.AspNetUsers.PhoneNumberConfirmed,\
     public.AspNetUsers.SecurityStamp,\
     public.AspNetUsers.TwoFactorEnabled"
 worker:
