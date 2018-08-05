@@ -2,8 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "name" . }}
-  annotations:
-    checksum/queries: {{ .Files.Glob "queries/*" | toString | sha256sum }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -17,6 +15,8 @@ spec:
       app: {{ template "name" . }}
   template:
     metadata:
+      annotations:
+        checksum/queries: {{ .Files.Glob "queries/*" | toString | sha256sum }}
       labels:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
