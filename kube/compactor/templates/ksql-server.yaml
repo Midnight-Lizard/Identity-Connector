@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "name" . }}
   annotations:
-    checksum/queries: {{ .Files.Glob "queries/*" | toStrings | join "" | sha256sum }}
+    checksum/queries: {{ .Files.Glob "queries/*" | toString | sha256sum }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
