@@ -1,0 +1,4 @@
+apiVersion: v1
+description: KSQL server with queries to compact debezium topics
+name: identity-compactor
+version: 0.1.0
