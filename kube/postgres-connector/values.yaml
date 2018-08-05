@@ -30,6 +30,19 @@ connector:
     public.AspNetUsers.PasswordHash,\
     public.AspNetUsers.SecurityStamp,\
     public.AspNetUsers.TwoFactorEnabled"
+  snapshot.select.statement.overrides: "\
+    iddb.AspNetRoleClaims,\
+    iddb.AspNetRoles,\
+    iddb.AspNetUserClaims,\
+    iddb.AspNetUserLogins,\
+    iddb.AspNetUserRoles,\
+    iddb.AspNetUsers"
+  snapshot.select.statement.overrides.iddb.AspNetRoleClaims: "select x.* from (values(null)) as v left join public.\"AspNetRoleClaims\" as x on 1=1"
+  snapshot.select.statement.overrides.iddb.AspNetRoles: "select x.* from (values(null)) as v left join public.\"AspNetRoles\" as x on 1=1"
+  snapshot.select.statement.overrides.iddb.AspNetUserClaims: "select x.* from (values(null)) as v left join public.\"AspNetUserClaims\" as x on 1=1"
+  snapshot.select.statement.overrides.iddb.AspNetUserLogins: "select x.* from (values(null)) as v left join public.\"AspNetUserLogins\" as x on 1=1"
+  snapshot.select.statement.overrides.iddb.AspNetUserRoles: "select x.* from (values(null)) as v left join public.\"AspNetUserRoles\" as x on 1=1"
+  snapshot.select.statement.overrides.iddb.AspNetUsers: "select x.* from (values(null)) as v left join public.\"AspNetUsers\" as x on 1=1"
 worker:
   bootstrap.servers: bootstrap.kafka:9092
   key.converter: org.apache.kafka.connect.json.JsonConverter
