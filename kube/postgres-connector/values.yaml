@@ -31,18 +31,64 @@ connector:
     public.AspNetUsers.SecurityStamp,\
     public.AspNetUsers.TwoFactorEnabled"
   snapshot.select.statement.overrides: "\
-    iddb.AspNetRoleClaims,\
-    iddb.AspNetRoles,\
-    iddb.AspNetUserClaims,\
-    iddb.AspNetUserLogins,\
-    iddb.AspNetUserRoles,\
-    iddb.AspNetUsers"
-  snapshot.select.statement.overrides.iddb.AspNetRoleClaims: "select x.* from (values(null)) as v left join public.\"AspNetRoleClaims\" as x on 1=1"
-  snapshot.select.statement.overrides.iddb.AspNetRoles: "select x.* from (values(null)) as v left join public.\"AspNetRoles\" as x on 1=1"
-  snapshot.select.statement.overrides.iddb.AspNetUserClaims: "select x.* from (values(null)) as v left join public.\"AspNetUserClaims\" as x on 1=1"
-  snapshot.select.statement.overrides.iddb.AspNetUserLogins: "select x.* from (values(null)) as v left join public.\"AspNetUserLogins\" as x on 1=1"
-  snapshot.select.statement.overrides.iddb.AspNetUserRoles: "select x.* from (values(null)) as v left join public.\"AspNetUserRoles\" as x on 1=1"
-  snapshot.select.statement.overrides.iddb.AspNetUsers: "select x.* from (values(null)) as v left join public.\"AspNetUsers\" as x on 1=1"
+    public.AspNetRoleClaims,\
+    public.AspNetRoles,\
+    public.AspNetUserClaims,\
+    public.AspNetUserLogins,\
+    public.AspNetUserRoles,\
+    public.AspNetUsers"
+  snapshot.select.statement.overrides.public.AspNetRoleClaims: >-
+    select
+    coalesce("Id", -1),
+    coalesce("RoleId", ''),
+    coalesce("ClaimType", ''),
+    coalesce("ClaimValue", '')
+    from (values(1)) v left join public."AspNetRoleClaims" on 1=1
+  snapshot.select.statement.overrides.public.AspNetRoles: >-
+    select
+    coalesce("Id", ''),
+    coalesce("Name", ''),
+    coalesce("NormalizedName", ''),
+    coalesce("ConcurrencyStamp", '')
+    from (values(1)) v left join public."AspNetRoles" on 1=1
+  snapshot.select.statement.overrides.public.AspNetUserClaims: >-
+    select
+    coalesce("Id", -1),
+    coalesce("UserId", ''),
+    coalesce("ClaimType", ''),
+    coalesce("ClaimValue", '')
+    from (values(1)) v left join public."AspNetUserClaims" on 1=1
+  snapshot.select.statement.overrides.public.AspNetUserLogins: >-
+    select
+    coalesce("LoginProvider", ''),
+    coalesce("ProviderKey", ''),
+    coalesce("ProviderDisplayName", ''),
+    coalesce("UserId", '')
+    from (values(1)) v left join public."AspNetUserLogins" on 1=1
+  snapshot.select.statement.overrides.public.AspNetUserRoles: >-
+    select
+    coalesce("UserId", ''),
+    coalesce("RoleId", '')
+    from (values(1)) v left join public."AspNetUserRoles" on 1=1
+  snapshot.select.statement.overrides.public.AspNetUsers: >-
+    select
+    coalesce("Id", ''),
+    coalesce("UserName", ''),
+    coalesce("DisplayName", ''),
+    coalesce("NormalizedUserName", ''),
+    coalesce("Email", ''),
+    coalesce("NormalizedEmail", ''),
+    coalesce("EmailConfirmed", false),
+    coalesce("PasswordHash", ''),
+    coalesce("SecurityStamp", ''),
+    coalesce("ConcurrencyStamp", ''),
+    coalesce("PhoneNumber", ''),
+    coalesce("PhoneNumberConfirmed", false),
+    coalesce("TwoFactorEnabled", false),
+    coalesce("LockoutEnd", current_timestamp),
+    coalesce("LockoutEnabled", false),
+    coalesce("AccessFailedCount", 0)
+    from (values(1)) v left join public."AspNetUsers" on 1=1
 worker:
   bootstrap.servers: bootstrap.kafka:9092
   key.converter: org.apache.kafka.connect.json.JsonConverter
