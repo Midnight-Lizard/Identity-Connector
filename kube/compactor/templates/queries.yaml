@@ -10,7 +10,6 @@ metadata:
 data:
   queries: |-
 {{- $idt := 4 }}
-{{ (.Files.Get "queries/__PROPERTIES.sql") | indent $idt }}
 {{- if .Values.dropAll }}
 {{ (.Files.Get "queries/__DROP_ALL.sql") | indent $idt }}
 {{- end }}
