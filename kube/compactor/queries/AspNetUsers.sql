@@ -13,8 +13,8 @@ CREATE STREAM RawStream_AspNetUsers (
     KAFKA_TOPIC = 'iddb.public.AspNetUsers',
     VALUE_FORMAT = 'JSON');
 
-CREATE TABLE Table_AspNetUsers WITH (
-    KAFKA_TOPIC = 'ksql-table_iddb.public.AspNetUsers',
+CREATE STREAM KeyedStream_AspNetUsers WITH (
+    KAFKA_TOPIC = 'ksql-stream_iddb.public.AspNetUsers',
     VALUE_FORMAT = 'JSON') AS
   SELECT
     after->Id as Id,
@@ -26,4 +26,6 @@ CREATE TABLE Table_AspNetUsers WITH (
     after->EmailConfirmed as EmailConfirmed,
     after->PhoneNumber as PhoneNumber,
     after->PhoneNumberConfirmed as PhoneNumberConfirmed
-  FROM RawStream_AspNetUsers;
+  FROM RawStream_AspNetUsers
+  WHERE after->Id <> ''
+  PARTITION BY Id;

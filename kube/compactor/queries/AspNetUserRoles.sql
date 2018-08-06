@@ -6,10 +6,13 @@ CREATE STREAM RawStream_AspNetUserRoles (
     KAFKA_TOPIC = 'iddb.public.AspNetUserRoles',
     VALUE_FORMAT = 'JSON');
 
-CREATE TABLE Table_AspNetUserRoles WITH (
-    KAFKA_TOPIC = 'ksql-table_iddb.public.AspNetUserRoles',
+CREATE STREAM KeyedStream_AspNetUserRoles WITH (
+    KAFKA_TOPIC = 'ksql-stream_iddb.public.AspNetUserRoles',
     VALUE_FORMAT = 'JSON') AS
   SELECT
+    after->UserId + '-' + after->RoleId as Id,
     after->UserId as UserId,
     after->RoleId as RoleId
-  FROM RawStream_AspNetUserRoles;
+  FROM RawStream_AspNetUserRoles
+  WHERE after->UserId <> ''
+  PARTITION BY Id;

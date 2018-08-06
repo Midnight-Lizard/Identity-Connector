@@ -8,12 +8,15 @@ CREATE STREAM RawStream_AspNetUserLogins (
     KAFKA_TOPIC = 'iddb.public.AspNetUserLogins',
     VALUE_FORMAT = 'JSON');
 
-CREATE TABLE Table_AspNetUserLogins WITH (
-    KAFKA_TOPIC = 'ksql-table_iddb.public.AspNetUserLogins',
+CREATE STREAM KeyedStream_AspNetUserLogins WITH (
+    KAFKA_TOPIC = 'ksql-stream_iddb.public.AspNetUserLogins',
     VALUE_FORMAT = 'JSON') AS
   SELECT
+    after->LoginProvider + '-' + after->ProviderKey as Id,
     after->LoginProvider as LoginProvider,
     after->ProviderKey as ProviderKey,
     after->ProviderDisplayName as ProviderDisplayName,
     after->UserId as UserId
-  FROM RawStream_AspNetUserLogins;
+  FROM RawStream_AspNetUserLogins
+  WHERE after->ProviderKey <> ''
+  PARTITION BY Id;
