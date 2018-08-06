@@ -18,6 +18,8 @@ spec:
       app: {{ template "name" . }}
   template:
     metadata:
+      annotations:
+        checksum/values: {{ .Files.Get "values.yaml" | sha256sum }}
       labels:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
