@@ -17,6 +17,9 @@ connector:
   database.password: POSTGRES_PASSWORD
   database.dbname: iddb
   database.server.name: iddb
+  transforms: unwrap
+  transforms.unwrap.type: io.debezium.transforms.UnwrapFromEnvelope
+  transforms.unwrap.drop.tombstones: true
   table.blacklist: "\
     public.__EFMigrationsHistory,\
     public.PersistedGrants,\
