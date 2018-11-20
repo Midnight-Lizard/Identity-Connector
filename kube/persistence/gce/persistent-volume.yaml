@@ -10,5 +10,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   gcePersistentDisk:
-    pdName: ml-small-disk
+    pdName: ml-small-disk-2
     fsType: ext4
