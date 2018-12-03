@@ -1,7 +1,7 @@
 pod=$(kubectl get pods --selector=app=identity-connector -o jsonpath='{.items[0].metadata.name}');
 originalRestarts=$(kubectl get -o jsonpath='{.status.containerStatuses[0].restartCount}' pod $pod);
 echo "originalRestarts: $originalRestarts";
-kubectl exec $pod -i -- bash -c "rm -f /usr/tmp/connect.offsets";
+kubectl exec $pod -i -- bash -c "cat /usr/tmp/connect.offsets && rm -f /usr/tmp/connect.offsets";
 
 # kubectl exec $pod -i -- curl -X POST localhost:8083/connectors/postgresql/restart;
 kubectl exec $pod -i -- curl -X PUT localhost:8083/connectors/postgresql/pause;
