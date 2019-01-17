@@ -2,9 +2,6 @@ replicaCount: 1
 image: debezium/connect:0.8.0.Final
 pullPolicy: IfNotPresent
 persistentVolumeClaimName: identity-connector-pvc
-affinity:
-  weight: 100
-  apps: [ "iddb" ]
 postgresPasswordSecret:
   secretName: iddb-secret
   secretKey: password
